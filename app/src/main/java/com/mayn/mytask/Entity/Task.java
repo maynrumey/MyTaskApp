@@ -9,6 +9,8 @@ package com.mayn.mytask.Entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.xml.sax.helpers.AttributesImpl;
+
 @Entity(tableName = "task_table")
 public class Task {
 
@@ -25,13 +27,14 @@ public class Task {
 
     public String description;
 
-
+    public String time;
     //->3
     //Creating constructor for model class
     //We didn't create constructor for ID beacuse - id will generate automatically
-    public Task(String title, String description) {
+    public Task(String title, String description, String time) {
         this.title = title;
         this.description = description;
+        this.time = time;
     }
 
     //-->4
@@ -47,6 +50,10 @@ public class Task {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getTime(){
+        return time;
     }
 
     //-->5

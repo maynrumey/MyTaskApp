@@ -1,116 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.chauthai.swipereveallayout.SwipeRevealLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:mode="same_level"
-    app:dragEdge="left"
-    android:id="@+id/swipereveallayout"
-    android:background="@color/light_gray"
-    android:layout_marginTop="10dp"
-    >
+    android:layout_margin="7dp"
+    app:cardBackgroundColor="@color/light_gray"
+    app:cardCornerRadius="10dp"
 
-    <!-- Your secondary layout here -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        >
 
-        <TextView
-            android:id="@+id/textDelete"
-            android:layout_width="80dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Delete"
-            android:gravity="center"
-            android:background="@color/dark_red"
-            android:textColor="@color/white"
-            />
-
-        <TextView
-            android:id="@+id/textComplete"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:text="Complete"
-            android:gravity="center"
-            android:background="@color/blue_mine"
-            android:textColor="@color/white"
-            />
-
-
-    </LinearLayout>
-
-    <!-- Your main layout here -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:cardBackgroundColor="@color/light_gray"
-            app:cardCornerRadius="10dp"
-            android:padding="5dp"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="5dp"
+                >
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:layout_weight="4">
+                    android:fontFamily="@font/poppins_light"
+                    android:text="TextView"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
 
-                    <TextView
-                        android:id="@+id/textTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_light"
-                        android:text="TextView"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                        android:textColor="@color/black"
-                        android:textSize="20sp"
-                        />
-
-                    <TextView
-                        android:id="@+id/textDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/textDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textViewDnT"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:background="@drawable/custom_texview"
                     android:text="set alarm"
+                    android:padding="5dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:visibility="invisible"
-                    android:layout_weight="0"/>
+                    android:textColor="@color/dark_red"
+                    android:textSize="8sp"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+        </LinearLayout>
 
-</com.chauthai.swipereveallayout.SwipeRevealLayout>
+    </androidx.cardview.widget.CardView>
 
 
 

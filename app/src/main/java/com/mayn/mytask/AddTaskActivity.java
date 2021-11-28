@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -70,13 +71,15 @@ public class AddTaskActivity extends AppCompatActivity {
         //1. Getting user's edit text Notes on String container
         String taskTitle = addTaskTitle.getText().toString();
         String taskDescription = addTaskDescription.getText().toString();
-        String taskDate = dateTime.getText().toString();
+
+        SimpleDateFormat timeStamp = new SimpleDateFormat("dd MMM, yyyy - HH:mm");
+        String currentDate = timeStamp.format(new Date());
         //In here we will send the user data to Main Activity and save it to datdbase from Main Activity
         //Sending data to Main Activity using Intent
         Intent i = new Intent();
         i.putExtra("title", taskTitle);
         i.putExtra("description",taskDescription);
-        i.putExtra("date_time",taskDate);
+        i.putExtra("time",currentDate);
         setResult(RESULT_OK,i);
         finish();
 

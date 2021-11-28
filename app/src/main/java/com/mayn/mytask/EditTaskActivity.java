@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class EditTaskActivity extends AppCompatActivity {
 
     EditText editTitle, editDescription;
@@ -72,11 +75,15 @@ public class EditTaskActivity extends AppCompatActivity {
         String titleLast = editTitle.getText().toString();
         String descriptionLast = editDescription.getText().toString();
 
+        SimpleDateFormat timeStamp = new SimpleDateFormat("dd MMM, yyyy - HH:mm");
+        String currentDate = timeStamp.format(new Date());
+
         //Using intent to send Data
         Intent intent = new Intent();
 
         intent.putExtra("title_update", titleLast);
         intent.putExtra("description_update",descriptionLast);
+        intent.putExtra("new_time", currentDate);
 
         //Sending task Id to update specific task - we need use If condition
         if (taskId != -1){

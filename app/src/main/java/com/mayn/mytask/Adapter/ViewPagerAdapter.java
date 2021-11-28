@@ -1,5 +1,7 @@
 package com.mayn.mytask.Adapter;
 
+import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

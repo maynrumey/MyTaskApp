@@ -21,6 +21,8 @@ public class TaskViewModel extends AndroidViewModel {
     private LiveData<List<Task>> taskList;
     private LiveData<List<CompletedTask>> completedTaskList;
 
+
+    //.Making constructor of view model
     ///--3. Define above elements into constructor
 
 
@@ -38,8 +40,10 @@ public class TaskViewModel extends AndroidViewModel {
     public void Insert(Task task){
 
         repository.Insert(task);
+
     }
     public void InsertCompletedTask(CompletedTask completedTask){
+
         repository.InsertCompletedTask(completedTask);
     }
 
@@ -47,11 +51,13 @@ public class TaskViewModel extends AndroidViewModel {
 
         repository.Update(task);
     }
+
     public void Delete(Task task){
 
         repository.Delete(task);
     }
     public void DeleteCompletedTask(CompletedTask completedTask){
+
         repository.DeleteCompletedTask(completedTask);
     }
 

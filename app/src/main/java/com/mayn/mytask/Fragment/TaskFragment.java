@@ -44,8 +44,20 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 public class TaskFragment extends Fragment {
 
 
+    public TaskFragment() {
+
+    }
+
+
+    public static TaskFragment newInstance(){
+
+        return new TaskFragment();
+    }
+
+
     //1.Create an Object of View ModelClass
     private TaskViewModel taskViewModel;
+
 
     FloatingActionButton addTaskFAB;
 
@@ -53,12 +65,7 @@ public class TaskFragment extends Fragment {
 
     TaskAdapter adapter;
 
-    public TaskFragment(){
 
-    }
-    
-
-    private LinearLayoutManager linearLayoutManager;
 
 
     @Nullable
@@ -69,25 +76,26 @@ public class TaskFragment extends Fragment {
         recyclerView = view.findViewById(R.id.taskRecyclerView);
         addTaskFAB = view.findViewById(R.id.floating_action_button);
         //Setting layout manager to recycler view
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
         //To reverse the Recycler View list
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
 
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL ));
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireActivity().getApplication(), LinearLayoutManager.VERTICAL ));
 
         //Create an Object of TaskAdapter Class
-        adapter = new TaskAdapter(requireActivity().getApplication());
+        adapter = new TaskAdapter(requireActivity());
         //Assign noteAdapter object to recyclerView
         recyclerView.setAdapter(adapter);
 
         //2.Assinging view model inside this OncreateView
 
 
-        taskViewModel = (TaskViewModel) new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())
-                .create(TaskViewModel.class);
+        taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
+                requireActivity().getApplication()).create(TaskViewModel.class);
 
         //3.Writing codes get notes data from view model
 
@@ -111,58 +119,60 @@ public class TaskFragment extends Fragment {
         //Also we have created a SetTask method on Adapter to Update Delete data on arraylist
         //to get task position - we have created a getTask method on Adapter class
 
-//        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT ){
-//            @Override
-//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//                return false;
-//                //This method is used for drag and drop recycler item
-//
-//            }
-//
-//            @Override
-//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//
-//                String completedTaskTile = adapter.getTask(viewHolder.getAdapterPosition()).getTitle();
-//                String completedTaskDescription = adapter.getTask(viewHolder.getAdapterPosition()).getDescription();
-//                int completedTaskId = adapter.getTask(viewHolder.getAdapterPosition()).getId();
-//
-//                CompletedTask completedDeleteTask = new CompletedTask(completedTaskTile, completedTaskDescription);
-//                taskViewModel.InsertCompletedTask(completedDeleteTask);
-//
-//                taskViewModel.Delete(adapter.getTask(viewHolder.getAdapterPosition()));
-//
-//                Snackbar.make(recyclerView, "Task Deleted", Snackbar.LENGTH_LONG)
-//                        .setAction("Undo", new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                Task task = new Task(completedTaskTile,completedTaskDescription);
-//                                task.setId(completedTaskId);
-//                                taskViewModel.Insert(task);
-//
-//                            }
-//                        }).show();
-//
-//
-//
-//            }
-//
-//            //--->Decorative Swipe---->
-//
-//            @Override
-//            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-//
-//                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-//
-//                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(getContext(), R.color.dark_red))
-//                        .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_24)
-//                        .create()
-//                        .decorate();
-//
-//                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-//            }
-//
-//            //--> Connect Item Touch helper with recycler View
-//        }).attachToRecyclerView(recyclerView);
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT ){
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+                //This method is used for drag and drop recycler item
+
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+                String completedTaskTile = adapter.getTask(viewHolder.getAdapterPosition()).getTitle();
+                String completedTaskDescription = adapter.getTask(viewHolder.getAdapterPosition()).getDescription();
+                String completedTaskTime = adapter.getTask(viewHolder.getAdapterPosition()).getTime();
+
+                int completedTaskId = adapter.getTask(viewHolder.getAdapterPosition()).getId();
+
+                CompletedTask completedDeleteTask = new CompletedTask(completedTaskTile, completedTaskDescription);
+                taskViewModel.InsertCompletedTask(completedDeleteTask);
+
+                taskViewModel.Delete(adapter.getTask(viewHolder.getAdapterPosition()));
+
+                Snackbar.make(recyclerView, "Task Completed", Snackbar.LENGTH_LONG)
+                        .setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Task task = new Task(completedTaskTile,completedTaskDescription, completedTaskTime);
+                                task.setId(completedTaskId);
+                                taskViewModel.Insert(task);
+
+                            }
+                        }).show();
+
+
+
+            }
+
+            //--->Decorative Swipe---->
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(getContext(), R.color.teal_700))
+                        .addSwipeRightActionIcon(R.drawable.ic_baseline_archive_24)
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+
+            //--> Connect Item Touch helper with recycler View
+        }).attachToRecyclerView(recyclerView);
 
 
 
@@ -179,7 +189,7 @@ public class TaskFragment extends Fragment {
 
 
 
-        //Calling "openEditTaskActivity()" to open Task
+//        Calling "openEditTaskActivity()" to open Task
 
         openEditTaskActivity();
 
@@ -203,13 +213,14 @@ public class TaskFragment extends Fragment {
                         Intent data = result.getData();
 
                         //Importing data from addNote Activity to string container
+                        assert data != null;
                         String title = data.getStringExtra("title");
                         String description = data.getStringExtra("description");
-//                        Date date = data.getStringExtra("date_time");
+                        String time = data.getStringExtra("time");
 
                         //-->Adding these data to Database-->
                         // We need to create an Object of Note class and passing - note and description data container
-                        Task task = new Task(title, description);
+                        Task task = new Task(title, description, time);
 
                         //--Now adding this "note" object to DataBase through ViewModel Object and Insert Method
                         taskViewModel.Insert(task);
@@ -234,13 +245,15 @@ public class TaskFragment extends Fragment {
                         Intent data = result.getData();
 
                         //Importing data from EditNote Activity to string container
+                        assert data != null;
                         String title = data.getStringExtra("title_update");
                         String description = data.getStringExtra("description_update");
+                        String newTime = data.getStringExtra("new_time");
                         int id = data.getIntExtra("task_id",-1);
 
                         //-->Updating database with these Data-->
                         // We need to create an Object of Task class and passing - Task and description data container
-                        Task task = new Task(title, description);
+                        Task task = new Task(title, description, newTime);
                         task.setId(id);
 
                         //--Now adding this "note" object to DataBase through ViewModel Object and Insert Method

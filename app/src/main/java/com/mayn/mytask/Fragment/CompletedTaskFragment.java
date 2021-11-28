@@ -1,5 +1,6 @@
 package com.mayn.mytask.Fragment;
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +31,17 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 public class CompletedTaskFragment extends Fragment {
 
+    public static CompletedTaskFragment newInstance(){
+
+        return new CompletedTaskFragment();
+    }
+
+    public CompletedTaskFragment(){
+        // Required empty public constructor
+    }
+
+
+
     RecyclerView completedRecyclerView;
 
     //1.Create an Object of View ModelClass
@@ -47,7 +59,7 @@ public class CompletedTaskFragment extends Fragment {
         completedRecyclerView = view.findViewById(R.id.recylerViewCompletedTask);
 
         //Setting layout manager to recycler view
-        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
 
         //To reverse the Recycler View list
         linearLayoutManager.setReverseLayout(true);
@@ -58,17 +70,17 @@ public class CompletedTaskFragment extends Fragment {
 
 
         //Assigning view model inside this OncreateView
-        taskViewModel = (TaskViewModel) new ViewModelProvider.AndroidViewModelFactory(getActivity().getApplication())
+        taskViewModel = (TaskViewModel) new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())
                 .create(TaskViewModel.class);
 
-         taskViewModel.getAllCompletedTask().observe((LifecycleOwner) getContext(), new Observer<List<CompletedTask>>() {
+         taskViewModel.getAllCompletedTask().observe((LifecycleOwner) requireActivity(), new Observer<List<CompletedTask>>() {
              @Override
              public void onChanged(List<CompletedTask> completedTaskList) {
                  completedTaskAdapter.setCompletedTaskList(completedTaskList);
              }
          });
 
-         //Swipe to Delete
+//         Swipe to Delete
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -90,7 +102,7 @@ public class CompletedTaskFragment extends Fragment {
 
                 new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
 
-                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(getContext(), R.color.dark_red))
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.dark_red))
                         .addSwipeLeftActionIcon(R.drawable.ic_baseline_delete_24)
                         .create()
                         .decorate();
